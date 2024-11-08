@@ -299,7 +299,9 @@ bool TrajectoryGenerator::generate(const planning_scene::PlanningSceneConstPtr& 
 
   try
   {
+    RCLCPP_INFO_STREAM(LOGGER, "Validating request...");
     validateRequest(req, scene->getCurrentState());
+    RCLCPP_INFO_STREAM(LOGGER, "Request validated.");
   }
   catch (const MoveItErrorCodeException& ex)
   {
@@ -311,7 +313,9 @@ bool TrajectoryGenerator::generate(const planning_scene::PlanningSceneConstPtr& 
 
   try
   {
+    RCLCPP_INFO_STREAM(LOGGER, "Validating command specific request...");
     cmdSpecificRequestValidation(req);
+    RCLCPP_INFO_STREAM(LOGGER, "Command specific request validated.");
   }
   catch (const MoveItErrorCodeException& ex)
   {
@@ -324,7 +328,9 @@ bool TrajectoryGenerator::generate(const planning_scene::PlanningSceneConstPtr& 
   MotionPlanInfo plan_info(scene, req);
   try
   {
+    RCLCPP_INFO_STREAM(LOGGER, "Extracting motion plan info...");
     extractMotionPlanInfo(scene, req, plan_info);
+    RCLCPP_INFO_STREAM(LOGGER, "Motion plan info extracted.");
   }
   catch (const MoveItErrorCodeException& ex)
   {
@@ -337,7 +343,9 @@ bool TrajectoryGenerator::generate(const planning_scene::PlanningSceneConstPtr& 
   trajectory_msgs::msg::JointTrajectory joint_trajectory;
   try
   {
+    RCLCPP_INFO_STREAM(LOGGER, "Planning trajectory...");
     plan(plan_info.start_scene, req, plan_info, sampling_time, joint_trajectory);
+    RCLCPP_INFO_STREAM(LOGGER, "Trajectory planned.");
   }
   catch (const MoveItErrorCodeException& ex)
   {
