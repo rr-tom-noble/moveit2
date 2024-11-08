@@ -100,6 +100,8 @@ void TrajectoryGeneratorLIN::extractMotionPlanInfo(const planning_scene::Plannin
   // goal given in Cartesian space
   else
   {
+    std::string frame_id;
+
     info.link_name = req.goal_constraints.front().position_constraints.front().link_name;
     if (req.goal_constraints.front().position_constraints.front().header.frame_id.empty() ||
         req.goal_constraints.front().orientation_constraints.front().header.frame_id.empty())
