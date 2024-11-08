@@ -70,10 +70,10 @@ void TrajectoryGeneratorLIN::extractMotionPlanInfo(const planning_scene::Plannin
                                                    TrajectoryGenerator::MotionPlanInfo& info) const
 {
   RCLCPP_DEBUG(LOGGER, "Extract necessary information from motion plan request.");
-
+  RCLCPP_INFO(LOGGER, "A");
   info.group_name = req.group_name;
   moveit::core::RobotState robot_state = scene->getCurrentState();
-
+  RCLCPP_INFO(LOGGER, "B");
   // goal given in joint space
   if (!req.goal_constraints.front().joint_constraints.empty())
   {
@@ -100,27 +100,34 @@ void TrajectoryGeneratorLIN::extractMotionPlanInfo(const planning_scene::Plannin
   // goal given in Cartesian space
   else
   {
+    RCLCPP_INFO(LOGGER, "C");
     std::string frame_id;
-
+    RCLCPP_INFO(LOGGER, "D");
     info.link_name = req.goal_constraints.front().position_constraints.front().link_name;
     if (req.goal_constraints.front().position_constraints.front().header.frame_id.empty() ||
         req.goal_constraints.front().orientation_constraints.front().header.frame_id.empty())
     {
+      RCLCPP_INFO(LOGGER, "E");
       RCLCPP_WARN(LOGGER, "Frame id is not set in position/orientation constraints of "
                           "goal. Use model frame as default");
+      RCLCPP_INFO(LOGGER, "F");
       frame_id = robot_model_->getModelFrame();
     }
     else
     {
+      RCLCPP_INFO(LOGGER, "G");
       frame_id = req.goal_constraints.front().position_constraints.front().header.frame_id;
     }
 
+    RCLCPP_INFO(LOGGER, "H");
     // goal pose with optional offset wrt. the planning frame
     info.goal_pose = scene->getFrameTransform(frame_id) * getConstraintPose(req.goal_constraints.front());
+    RCLCPP_INFO(LOGGER, "I");
     frame_id = robot_model_->getModelFrame();
-
+    RCLCPP_INFO(LOGGER, "J");
     // check goal pose ik before Cartesian motion plan starts
     std::map<std::string, double> ik_solution;
+    RCLCPP_INFO(LOGGER, "K");
     if (!computePoseIK(scene, info.group_name, info.link_name, info.goal_pose, frame_id, info.start_joint_position,
                        ik_solution))
     {

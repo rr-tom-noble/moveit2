@@ -82,6 +82,9 @@ bool pilz_industrial_motion_planner::computePoseIK(const planning_scene::Plannin
 
   // call ik
   const moveit::core::JointModelGroup* jmg = robot_model->getJointModelGroup(group_name);
+  RCLCPP_INFO(LOGGER, "Start to compute IK solution.");
+  RCLCPP_INFO(LOGGER, "Link name: %s", link_name.c_str());
+  RCLCPP_INFO(LOGGER, "Joint model group: %s", jmg->getName().c_str());
   if (rstate.setFromIK(jmg, pose, link_name, timeout, ik_constraint_function))
   {
     // copy the solution
